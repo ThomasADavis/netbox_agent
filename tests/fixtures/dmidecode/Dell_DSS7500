@@ -45,7 +45,7 @@ System Information
 	Manufacturer: Dell Inc.
 	Product Name: DSS7500
 	Version: Not Specified
-	Serial Number: 4242
+	Serial Number: 4242-SERVICE_TAG
 	UUID: 4C4C4544-0048-5110-804A-C6C04F594A32
 	Wake-up Type: Power Switch
 	SKU Number: SKU=NotProvided;ModelName=DSS7500
@@ -754,7 +754,7 @@ IPMI Device Information
 Handle 0x2700, DMI type 39, 22 bytes
 System Power Supply
 	Location: Not Specified
-	Name: PWR SPLY,1600W,RDNT,DELTA     
+	Name: PWR SPLY,1600W,RDNT,DELTA
 	Manufacturer: DELL
 	Serial Number: 4242
 	Asset Tag: Not Specified
@@ -770,7 +770,7 @@ System Power Supply
 Handle 0x2701, DMI type 39, 22 bytes
 System Power Supply
 	Location: Not Specified
-	Name: PWR SPLY,1600W,RDNT,DELTA     
+	Name: PWR SPLY,1600W,RDNT,DELTA
 	Manufacturer: DELL
 	Serial Number: 4242
 	Asset Tag: Not Specified
@@ -866,4 +866,3 @@ OEM-specific Type
 
 Handle 0xFEFF, DMI type 127, 4 bytes
 End Of Table
-

@@ -60,12 +60,15 @@ for type_id, type_str in _type2str.items():
     _str2type[type_str] = type_id
 
 
-def parse():
+def parse(output=None):
     """
     parse the full output of the dmidecode
     command and return a dic containing the parsed information
     """
-    buffer = _execute_cmd()
+    if output:
+        buffer = output
+    else:
+        buffer = _execute_cmd()
     if isinstance(buffer, bytes):
         buffer = buffer.decode('utf-8')
     _data = _parse(buffer)
