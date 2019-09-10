@@ -17,10 +17,10 @@ class ServerBase():
         else:
             self.dmi = dmidecode.parse()
 
-        self.baseboard = self.dmi.get_by_type('Baseboard')
-        self.bios = self.dmi.get_by_type('BIOS')
-        self.chassis = self.dmi.get_by_type('Chassis')
-        self.system = self.dmi.get_by_type('System')
+        self.baseboard = dmidecode.get_by_type(self.dmi, 'Baseboard')
+        self.bios = dmidecode.get_by_type(self.dmi, 'BIOS')
+        self.chassis = dmidecode.get_by_type(self.dmi, 'Chassis')
+        self.system = dmidecode.get_by_type(self.dmi, 'System')
 
         self.network = None
 

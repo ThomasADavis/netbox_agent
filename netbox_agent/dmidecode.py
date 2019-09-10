@@ -75,7 +75,7 @@ def parse(output=None):
     return _data
 
 
-def get_by_type(type_id):
+def get_by_type(data, type_id):
     """
     filter the output of dmidecode per type
     0   BIOS
@@ -127,7 +127,6 @@ def get_by_type(type_id):
         if type_id is None:
             return None
 
-    data = parse()
     result = []
     for entry in data.values():
         if entry['DMIType'] == type_id:

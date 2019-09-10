@@ -13,6 +13,8 @@ def get_config():
         ],
         prog='netbox_agent',
         description="Netbox agent to run on your infrastructure's servers",
+        env_prefix='NETBOX_AGENT_',
+        default_env=True
     )
     p.add_argument('-c', '--config', action=jsonargparse.ActionConfigFile)
 
