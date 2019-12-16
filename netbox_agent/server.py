@@ -229,9 +229,6 @@ class ServerBase():
             rack=rack.id if rack else None,
             tags=tags,
         )
-        print("server created..")
-        pprint(new_server)
-        print("done.")
         return new_server
 
     def get_netbox_server(self):

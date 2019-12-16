@@ -155,9 +155,6 @@ class Network():
         return self.nics
 
     def get_netbox_network_card(self, nic):
-        pprint(nic)
-        pprint(self.device)
-
         if self.device is None:
            return
 

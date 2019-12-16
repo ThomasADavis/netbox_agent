@@ -11,7 +11,6 @@ from netbox_agent.misc import is_tool
 
 class OVS():
     def __init__(self):
-        print("ovs init")
 
         if which('ovs-vsctl') is None:
             print("could not find ovs-vsctl")
@@ -29,8 +28,6 @@ class OVS():
         for line in output.split('\n'):
             line = line.rstrip()
             r = line.split(" ")[-2:]
-            # print("line: %s" % line)
-            # print("split: %s" % r )
 
             if len(r) < 2:
                  self.fields["info"] = {}
@@ -54,9 +51,6 @@ class OVS():
             if "ovs_version" in r[0]:
                  self.fields["info"]["ovs_version"] = r[1]
             
-        print("ovs vsctl ran..")
-        pprint(self.fields)
-
 
     def get_info(self, interface):
        for interface in self.fields:
