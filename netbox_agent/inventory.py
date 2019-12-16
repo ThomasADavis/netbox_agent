@@ -1,6 +1,7 @@
 import logging
 import pynetbox
 import re
+from pprint import pprint
 
 from netbox_agent.config import netbox_instance as nb, config
 from netbox_agent.misc import is_tool, get_vendor
@@ -119,10 +120,23 @@ class Inventory():
         motherboards = []
 
         m = {}
-        m['serial'] = self.lshw.motherboard_serial
+
         m['vendor'] = self.lshw.vendor
-        m['name'] = '{} {}'.format(self.lshw.vendor, self.lshw.motherboard)
-        m['description'] = '{} Motherboard'.format(self.lshw.motherboard)
+
+        if "Default string" in self.lshw.motherboard_serial:
+            m['serial'] = 'No S/N'
+        else:
+            m['serial'] = self.lshw.motherboard_serial
+
+        if "Default string" in self.lshw.motherboard:
+            m['description'] = 'Motherboard'
+        else:
+            m['description'] = '{} Motherboard'.format(self.lshw.motherboard)
+
+        if "Default" in self.lshw.motherboard:
+            m['name'] = '{} {}'.format(self.lshw.vendor, self.lshw.product)
+        else:
+            m['name'] = '{} {}'.format(self.lshw.vendor, self.lshw.motherboard)
 
         motherboards.append(m)
 
@@ -156,6 +170,11 @@ class Inventory():
                 )
 
     def create_netbox_interface(self, iface):
+        if "Controller" in iface['product']:
+           iface['product'] = iface['product'].replace(" Controller", "")
+
+        pprint(iface)
+        print("length %d" % len(iface["product"]))
         manufacturer = self.find_or_create_manufacturer(iface["vendor"])
         _ = nb.dcim.inventory_items.create(
             device=self.device_id,

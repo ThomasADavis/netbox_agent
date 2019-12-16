@@ -23,7 +23,10 @@ class LSHW():
         self.power = []
         self.disks = []
         self.vendor = self.hw_info["vendor"]
-        self.product = self.hw_info["product"]
+        if "(XXXXXX)" in self.hw_info["product"]:
+            self.product = self.hw_info['product'].replace(" (XXXXXX)", "")
+        else:
+             self.product = self.hw_info["product"]
         self.chassis_serial = self.hw_info["serial"]
         self.motherboard_serial = self.hw_info["children"][0].get("serial", "No S/N")
         self.motherboard = self.hw_info["children"][0].get("product", "Motherboard")

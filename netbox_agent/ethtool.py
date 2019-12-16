@@ -1,8 +1,20 @@
 import re
 from shutil import which
+from pprint import pprint
 import subprocess
 
 #  Originally from https://github.com/opencoff/useful-scripts/blob/master/linktest.py
+
+module_map = {
+    'Identifier' : 'identifier',
+    'Extended identifier': 'extended_identifier',
+    'Connector':'connector',
+    'Transceiver type': 'transciever_type',
+    'Vendor Name': 'vendor',
+    'Vendor PN': 'partnumber',
+    'Vendor SN': 'serialnumber',
+    'Vendor rev': 'revision',
+}
 
 # mapping fields from ethtool output to simple names
 field_map = {
@@ -62,17 +74,50 @@ class Ethtool():
                     fields[field] += ' ' + line.strip()
         return fields
 
+    def _parse_ethtool_info_output(self):
+        status, output = subprocess.getstatusoutput('ethtool -i {}'.format(self.interface))
+
+        if status != 0:
+            return {}
+
+        fields = {}
+        field = ''
+
+        for line in output.split('\n'):
+            line = line.rstrip()
+            r = line.find(':')
+            if r > 0:
+                field = line[:r].strip()
+                output = line[r+1:].strip()
+                fields[field] = output
+
+        return fields
+         
     def _parse_ethtool_module_output(self):
         status, output = subprocess.getstatusoutput('ethtool -m {}'.format(self.interface))
         if status != 0:
             return {}
-        r = re.search(r'Identifier.*\((\w+)\)', output)
-        if r and len(r.groups()) > 0:
-            return {'form_factor': r.groups()[0]}
+
+        fields = {}
+        field = ''
+
+        for line in output.split('\n')[1:]:
+            line = line.rstrip()
+            r = line.find(':')
+            if r > 0:
+                field = line[:r].strip()
+                if field not in module_map:
+                    continue
+                field = module_map[field]
+                output = line[r+1:].strip()
+                fields[field] = output
+
+        return fields
 
     def parse(self):
         if which('ethtool') is None:
             return None
         output = self._parse_ethtool_output()
+        output.update(self._parse_ethtool_info_output())
         output.update(self._parse_ethtool_module_output())
         return output
